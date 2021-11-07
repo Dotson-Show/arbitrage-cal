@@ -1,0 +1,25 @@
+* {
+     text-align: center;
+     background-color: #282c34;
+     /* font-size: 2px; */
+}
+
+.main {
+     text-align: center;
+     background-color: #282c34;
+     color: #fff;
+     height: 100vh; 
+}
+
+.main-body {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     font-size: calc(10px + 2vmin);
+}
+
+.resp {
+     /* color: rgb(240, 79, 30); */
+     /* color: rgb(124, 240, 30); */
+}

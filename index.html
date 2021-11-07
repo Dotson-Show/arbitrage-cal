@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<title>Arbitrage Calculator</title>
+</head>
+<body>
+     <div class="container-fluid main">
+          <header class="text-center py-4">
+               <h1>Arbitrage Calculator</h1>
+          </header>
+          <div class="row justify-content-center">
+               <div class="col-md-6">
+                    <div class="main-body">
+                         <form method="" action="">
+                              <div class="form-group">
+                                   <label for="odd-one">Odd One</label>
+                                   <input id="odd-one" class="form-control" type="number" name="odd-one">
+                              </div>
+                              <div class="form-group">
+                                   <label for="odd-two">Odd Two</label>
+                                   <input id="odd-two" class="form-control" type="number" name="odd-two">
+                              </div>
+                              <div class="form-group">
+                                   <label for="total-stake">Total Stake</label>
+                                   <input id="total-stake" class="form-control" type="number" name="total-stake">
+                              </div>
+                              <button class="btn btn-primary" type="button" onclick=calculateArb()>Calculate</button>
+                         </form>
+                         <div id="result" class="pt-4">
+                              <h3>Result</h3>
+                              <div>Total Odds Percentage: <span id="perc-odd" class="resp"></span></div>
+                              <div>Arb Opportunity: <span id="is-arb" class="resp"></span></div>
+                              <div>Bet on <span id="odd-one-rep" class="resp"></span>: 
+                                   <span id="odd-one-stake" class="resp"></span> 
+                                   ROI: <span id="roi-odd-one" class="resp"></span>
+                              </div>
+                              <div>Bet on <span id="odd-two-rep" class="resp"></span>: 
+                                   <span id="odd-two-stake" class="resp"></span> 
+                                   ROI: <span id="roi-odd-two" class="resp"></span>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+          </div>
+     </div>
+     
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+<script>
+     function calculateArb() {
+          let oddOne = document.getElementById('odd-one').value;
+          let oddTwo = document.getElementById('odd-two').value;
+          let totalStake = document.getElementById('total-stake').value;
+          let percOdd = document.getElementById('perc-odd');
+          let arbsOpportunity = document.getElementById('is-arb');
+          let stakeOnOddOne = document.getElementById('odd-one-stake');
+          let stakeOnOddTwo = document.getElementById('odd-two-stake');
+          let oddOneHolder = document.getElementById('odd-one-rep');
+          let oddTwoHolder = document.getElementById('odd-two-rep');
+          let roiOddOneHolder = document.getElementById('roi-odd-one');
+          let roiOddTwoHolder = document.getElementById('roi-odd-two');
+
+          let responses = document.querySelectorAll('.resp');
+          
+          let percentageOdd = ((1/oddOne) * 100) + ((1/oddTwo) * 100);
+          let oddOneStake = ((totalStake * ((1/oddOne) * 100))/percentageOdd).toFixed(2);
+          let oddTwoStake = ((totalStake * ((1/oddTwo) * 100))/percentageOdd).toFixed(2);
+
+          let roiOddOne = ((oddOneStake * oddOne) - (totalStake)).toFixed(2);
+          let roiOddTwo = ((oddTwoStake * oddTwo) - (totalStake)).toFixed(2);
+
+          console.log('Total Odds Percentage:' + percentageOdd);
+          console.log('Stake on odd one:' + oddOneStake);
+          console.log('Stake on odd two:' + oddTwoStake);
+          
+          if (percentageOdd < 100) {
+               responses.forEach(response => {
+                    response.style.color = "rgb(124, 240, 30)";
+               })
+               
+               percOdd.innerHTML = percentageOdd.toFixed(2);
+               arbsOpportunity.innerHTML = 'Yes';
+               oddOneHolder.innerHTML = oddOne;
+               oddTwoHolder.innerHTML = oddTwo;
+               stakeOnOddOne.innerHTML = oddOneStake;
+               stakeOnOddTwo.innerHTML = oddTwoStake;
+               roiOddOneHolder.innerHTML = roiOddOne;
+               roiOddTwoHolder.innerHTML = roiOddTwo;
+          } else {
+               responses.forEach(response => {
+                    response.style.color = "rgb(240, 79, 30)";
+               })
+               
+               percOdd.innerHTML = percentageOdd.toFixed(2);
+               arbsOpportunity.innerHTML = 'No';
+               oddOneHolder.innerHTML = oddOne;
+               oddTwoHolder.innerHTML = oddTwo;
+               stakeOnOddOne.innerHTML = 0;
+               stakeOnOddTwo.innerHTML = 0;
+               roiOddOneHolder.innerHTML = 0;
+               roiOddTwoHolder.innerHTML = 0;
+          }
+           
+     }
+</script>
+</body>
+</html>
